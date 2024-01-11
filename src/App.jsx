@@ -1,5 +1,6 @@
 
 import './App.css'
+import Footer from './components/Footer'
 import Header from './components/Header'
 import HeroSecton from './components/HeroSection'
 
@@ -11,6 +12,7 @@ function App() {
 
       <Header />
       <HeroSecton />
+      <Footer />
     </>
   )
 }
