@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export function AddTaskModal({onSave, taskToEdit}) {
+export function AddTaskModal({onSave, taskToEdit,onCloseClick}) {
     // console.log("addtaskmodal",taskToEdit)
 
     const [task, setTask] = useState(taskToEdit || {
@@ -116,7 +116,14 @@ export function AddTaskModal({onSave, taskToEdit}) {
           </div>
         </div>
       
-        <div className="mt-16 flex justify-center lg:mt-20">
+        <div className="mt-16 flex justify-between lg:mt-20">
+          <button
+            onClick={onCloseClick}
+            type="submit"
+            className="rounded bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80"
+          >
+            Create new Task
+          </button>
           <button
             onClick={(e) => {
                 e.preventDefault();
