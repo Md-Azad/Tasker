@@ -5,6 +5,7 @@ import HeroSecton from "./components/HeroSection";
 import TaskBoard from "./task/TaskBoard";
 
 
+
 function App() {
   return (
     <>
@@ -14,6 +15,7 @@ function App() {
         <TaskBoard />
       </div>
       <Footer />
+      
     </>
   );
 }
