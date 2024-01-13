@@ -2,7 +2,8 @@ import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import HeroSecton from "./components/HeroSection";
-import TaskBoard from "./task/Taskborad";
+import TaskBoard from "./task/TaskBoard";
+
 
 function App() {
   return (
