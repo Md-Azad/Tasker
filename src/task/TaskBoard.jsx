@@ -17,24 +17,40 @@ export default function TaskBoard() {
 
   const [tasks, setTasks] = useState([defaultTask]);
   const [showModal, setShowModal] = useState(false);
+  const [taskToEdit,setTaskToEdit] = useState(null)
 
-  function handleAddTask(newTask){
-	console.log("adding a task...",newTask)
-	setTasks([...tasks, newTask])
+  function handleAddTask(newTask,isAdd){
+	if(isAdd){
+		setTasks([...tasks, newTask])
+	}else{
+		setTasks(
+			tasks.map(task=>{
+				if(task.id ===newTask.id){
+					return newTask
+				}
+				return task
+		})
+		)
+	}
+	
 	setShowModal(false)
 	
+  }
+  function handleEdit(task){
+	setTaskToEdit(task)
+	setShowModal(true)
   }
 
   return (
     <section className="mb-20" id="tasks">
-		{showModal && <AddTaskModal onSave ={handleAddTask} />}
+		{showModal && <AddTaskModal onSave ={handleAddTask} taskToEdit={taskToEdit} />}
       <div className="container">
         {/* <!-- Search Box --> */}
 			<SearchBox />
         {/* <!-- Search Box Ends --> */}
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
           <TaskBar onAddTask={()=>setShowModal(true)} />
-          <TaskList  tasks = {tasks} />
+          <TaskList  tasks = {tasks} onEdit ={handleEdit}/>
         </div>
       </div>
     </section>

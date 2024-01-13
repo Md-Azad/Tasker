@@ -1,9 +1,9 @@
 import { useState } from "react"
 
-export function AddTaskModal({onSave}) {
-    
+export function AddTaskModal({onSave, taskToEdit}) {
+    // console.log("addtaskmodal",taskToEdit)
 
-    const [task, setTask] = useState({
+    const [task, setTask] = useState(taskToEdit || {
         id:crypto.randomUUID(),
         title: "",
         description: "",
@@ -29,6 +29,9 @@ export function AddTaskModal({onSave}) {
 
     }
 
+    const [isAdd, setIsAdd] = useState(Object.is(taskToEdit,null))
+   
+
    
 
     
@@ -42,7 +45,8 @@ export function AddTaskModal({onSave}) {
         <h2
           className="mb-9 text-center text-2xl font-bold text-white lg:mb-11 lg:text-[28px]"
         >
-          Add New Task
+            {isAdd? "Add New Task" :"Edit Task"}
+          
         </h2>
   
    
@@ -104,9 +108,9 @@ export function AddTaskModal({onSave}) {
                 required
               >
                 <option value="">Select Priority</option>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
               </select>
             </div>
           </div>
@@ -116,7 +120,7 @@ export function AddTaskModal({onSave}) {
           <button
             onClick={(e) => {
                 e.preventDefault();
-                onSave(task);
+                onSave(task,isAdd);
             }}
             type="submit"
             className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
