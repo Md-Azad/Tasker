@@ -61,8 +61,15 @@ export default function TaskBoard() {
 	const newTasks = [...tasks];
 	newTasks[taskIndex].isFavorite = !newTasks[taskIndex].isFavorite;
 	setTasks(newTasks);
-
 	
+  }
+
+  function handleSearch(searchTerm){
+		console.log(searchTerm)
+
+		const filtered = tasks.filter(task=> task.title.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()))
+
+		setTasks([...filtered])
   }
 
   return (
@@ -70,7 +77,7 @@ export default function TaskBoard() {
 		{showModal && <AddTaskModal onSave ={handleAddTask} taskToEdit={taskToEdit} onCloseClick={handleCloseClick} />}
       <div className="container">
         {/* <!-- Search Box --> */}
-			<SearchBox />
+			<SearchBox onSearch={handleSearch} />
         {/* <!-- Search Box Ends --> */}
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
           <TaskBar onAddTask={()=>setShowModal(true)} onDeleteAll={handleDeleteAll} />
