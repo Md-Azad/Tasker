@@ -1,4 +1,4 @@
-export default function TaskBar({onAddTask}) {
+export default function TaskBar({onAddTask,onDeleteAll}) {
   return (
     <div className="mb-14 items-center justify-between sm:flex">
       <h2 className="text-2xl font-semibold max-sm:mb-4">Your Tasks</h2>
@@ -6,7 +6,7 @@ export default function TaskBar({onAddTask}) {
         <button onClick={onAddTask} className="rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold">
           Add Task
         </button>
-        <button className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold">
+        <button onClick={onDeleteAll} className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold">
           Delete All
         </button>
       </div>
