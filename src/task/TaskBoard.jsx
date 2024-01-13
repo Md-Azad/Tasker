@@ -3,6 +3,7 @@ import SearchBox from "./SearchBox";
 import TaskBar from "./TaskBar";
 import TaskList from "./TaskList";
 import { AddTaskModal } from "./addTaskModal";
+import NoTaskFount from "./NoTaskFound";
 
 export default function TaskBoard() {
   const defaultTask = {
@@ -17,71 +18,89 @@ export default function TaskBoard() {
 
   const [tasks, setTasks] = useState([defaultTask]);
   const [showModal, setShowModal] = useState(false);
-  const [taskToEdit,setTaskToEdit] = useState(null)
+  const [taskToEdit, setTaskToEdit] = useState(null);
 
-  function handleAddTask(newTask,isAdd){
-	if(isAdd){
-		setTasks([...tasks, newTask])
-	}else{
-		setTasks(
-			tasks.map(task=>{
-				if(task.id ===newTask.id){
-					return newTask
-				}
-				return task
-		})
-		)
-	}
-	
-	setShowModal(false)
-	
-  }
-  function handleEdit(task){
-	setTaskToEdit(task)
-	setShowModal(true)
-  }
+  function handleAddTask(newTask, isAdd) {
+    if (isAdd) {
+      setTasks([...tasks, newTask]);
+    } else {
+      setTasks(
+        tasks.map((task) => {
+          if (task.id === newTask.id) {
+            return newTask;
+          }
+          return task;
+        })
+      );
+    }
 
-  function handleCloseClick(){
-	setShowModal(false)
-	setTaskToEdit(null)
+    setShowModal(false);
+  }
+  function handleEdit(task) {
+    setTaskToEdit(task);
+    setShowModal(true);
   }
 
-  function handleTaskDelete(taskId){
-	const taskAfterDelete = tasks.filter( task=>task.id !==taskId)
-	setTasks(taskAfterDelete)
+  function handleCloseClick() {
+    setShowModal(false);
+    setTaskToEdit(null);
   }
 
-  function handleDeleteAll(){
-	tasks.length = 0;
-	setTasks([...tasks])
+  function handleTaskDelete(taskId) {
+    const taskAfterDelete = tasks.filter((task) => task.id !== taskId);
+    setTasks(taskAfterDelete);
   }
 
-  function handleFavorite(taskId){
-	const taskIndex = tasks.findIndex(task=> task.id ===taskId);
-	const newTasks = [...tasks];
-	newTasks[taskIndex].isFavorite = !newTasks[taskIndex].isFavorite;
-	setTasks(newTasks);
-	
+  function handleDeleteAll() {
+    tasks.length = 0;
+    setTasks([...tasks]);
   }
 
-  function handleSearch(searchTerm){
-		console.log(searchTerm)
+  function handleFavorite(taskId) {
+    const taskIndex = tasks.findIndex((task) => task.id === taskId);
+    const newTasks = [...tasks];
+    newTasks[taskIndex].isFavorite = !newTasks[taskIndex].isFavorite;
+    setTasks(newTasks);
+  }
 
-		const filtered = tasks.filter(task=> task.title.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()))
+  function handleSearch(searchTerm) {
+    console.log(searchTerm);
 
-		setTasks([...filtered])
+    const filtered = tasks.filter((task) =>
+      task.title.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+    );
+
+    setTasks([...filtered]);
   }
 
   return (
     <section className="mb-20" id="tasks">
-		{showModal && <AddTaskModal onSave ={handleAddTask} taskToEdit={taskToEdit} onCloseClick={handleCloseClick} />}
+      {showModal && (
+        <AddTaskModal
+          onSave={handleAddTask}
+          taskToEdit={taskToEdit}
+          onCloseClick={handleCloseClick}
+        />
+      )}
       <div className="container">
-        {/* <!-- Search Box --> */}
-			<SearchBox onSearch={handleSearch} />
-        {/* <!-- Search Box Ends --> */}
+        <SearchBox onSearch={handleSearch} />
+
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
-          <TaskBar onAddTask={()=>setShowModal(true)} onDeleteAll={handleDeleteAll} />
-          <TaskList  tasks = {tasks} onEdit ={handleEdit} onDelete={handleTaskDelete} onFav={handleFavorite} />
+          <TaskBar
+            onAddTask={() => setShowModal(true)}
+            onDeleteAll={handleDeleteAll}
+          />
+
+          {tasks.length > 0 ? (
+            <TaskList
+              tasks={tasks}
+              onEdit={handleEdit}
+              onDelete={handleTaskDelete}
+              onFav={handleFavorite}
+            />
+          ) : (
+            <NoTaskFount />
+          )}
         </div>
       </div>
     </section>
